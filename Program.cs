@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace npuzzle
+namespace Npuzzle
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			//Console.WriteLine("Hello World!");
 		}
 	}
 }
