@@ -7,6 +7,7 @@ namespace Npuzzle.models
 	class Tile
 	{
 		public uint Val { get; set; }
-		//path_cost
+		public Position CurrentP { get; set; }
+		public Position TargetP { get; set; }
 	}
 }

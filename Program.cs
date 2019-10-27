@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Npuzzle.src.parser;
 
 namespace Npuzzle
 {
@@ -6,7 +8,14 @@ namespace Npuzzle
 	{
 		static void Main(string[] args)
 		{
-			//Console.WriteLine("Hello World!");
+			var parser = new Parser("3");
+
+			var str = Console.ReadLine();
+
+
+			var res = parser.ParseLine(str, out List<uint> resList);
+
+			Console.ReadKey();
 		}
 	}
 }
