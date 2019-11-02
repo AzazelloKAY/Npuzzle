@@ -5,3 +5,5 @@
 /.vs/npuzzle
 /bin/Debug/netcoreapp2.1
 /obj
+/Properties/launchSettings.json
+/.vs/config/applicationhost.config

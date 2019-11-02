@@ -8,12 +8,14 @@ namespace Npuzzle
 	{
 		static void Main(string[] args)
 		{
-			var parser = new Parser("3");
+			var parser = new Parser();
 
-			var str = Console.ReadLine();
-
-
-			var res = parser.ParseLine(str, out List<uint> resList);
+			do
+			{ 
+				var str = Console.ReadLine();
+				var res = parser.ParseLine(str, out List<uint> resList);
+			}
+			while (Console.ReadKey(true).Key != ConsoleKey.Escape);
 
 			Console.ReadKey();
 		}
