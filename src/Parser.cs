@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -51,6 +52,7 @@ namespace Npuzzle.src.parser
 				{
 					Size = int.Parse(reg.Groups["size"].Value);
 					NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})(?:\s*#.*)?\$$");
+					ret = true;
 				}
 			}
 
@@ -75,32 +77,45 @@ namespace Npuzzle.src.parser
 			return ret;
 		}
 
-		public bool Parse(Func<string> readLine, out uint[,] res)
+		public bool Parse(List<string> input, out uint[,] res)
 		{
 			var ret = true;
 			res = null;
-			var field = new List<List<uint>>();
+			var map = new List<List<uint>>();
 
 			try
 			{
-				do
+				foreach(var line in input)
 				{
-
-				}
-				while (Size == 0);
-
-				if (Size > 0)
-				{
-					do
+					if (IsCommentLine(line))
 					{
-
+						continue;
 					}
-					while (field.Count < Size);
-				}
-				else
-				{
-					Console.WriteLine("Wrong map.");
+
+					if(Size == 0 && IsFirstLine(line))
+					{
+						continue;
+					}
+					
+					if(Size > 0 && ParseLine(line, out List<uint> numLine))
+					{
+						map.Add(numLine);
+
+						if(numLine.Count > Size || map.Count > Size)
+						{
+							//throw nessage "Wrong map size"
+							ret = false;
+							break;
+						}
+
+						continue;
+					}
+
+					//test mac last line comnd + D ??
+					//if(map.Count == Size) { }
+
 					ret = false;
+					break;
 				}
 			}
 			catch(Exception ex)
@@ -109,7 +124,70 @@ namespace Npuzzle.src.parser
 				ret = false;
 			}
 
+			if(ret)
+			{
+				//make res array
+				res = new uint[Size, Size];
+				for(var r = 0; r < Size; r++)
+				{
+					for(var c = 0; c < Size; c++)
+					{
+						res[r, c] = map[r][c];
+					}
+				}
+			}
+
 			return ret;
 		}
+
+		#region READERS
+
+		public List<string> ReadFromConsole()
+		{
+			var ret = new List<string>();
+
+			try
+			{
+				var line = string.Empty;
+				while (!string.IsNullOrWhiteSpace(line = Console.ReadLine()))
+				{
+					ret.Add(line);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Error in reading");
+			}
+
+			return ret;
+		}
+
+		public List<string> ReadFromFile(string path)
+		{
+			var ret = new List<string>();
+
+			if(!string.IsNullOrWhiteSpace(path))
+			{
+				try
+				{
+					using (var file = File.OpenText(path))
+					{
+						while (!file.EndOfStream)
+						{
+							ret.Add(file.ReadLine());
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine("Error in file reading");
+				}
+			}
+
+			return ret;
+		}
+
+		#endregion
+
 	}
 }

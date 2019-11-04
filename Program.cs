@@ -9,15 +9,35 @@ namespace Npuzzle
 		static void Main(string[] args)
 		{
 			var parser = new Parser();
+			List<string> strMap;
 
-			do
-			{ 
-				var str = Console.ReadLine();
-				var res = parser.ParseLine(str, out List<uint> resList);
+			if(args.Length == 0)
+			{
+				strMap = parser.ReadFromConsole();
 			}
-			while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+			else
+			{
+				strMap = parser.ReadFromFile(args[0]);
+			}
 
-			Console.ReadKey();
+			if (parser.Parse(strMap, out uint[,] mass))
+			{
+				Console.WriteLine("We got a mass");
+			}
+			else
+			{
+				Console.WriteLine("Some errors");
+			}
+
+			//do
+			//{ 
+			//	var str = Console.ReadLine();
+			//	var res = parser.ParseLine(str, out List<uint> resList);
+			//}
+			//while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+			//Console.ReadKey();
+
+
 		}
 	}
 }
