@@ -30,16 +30,17 @@ namespace Npuzzle.src.parser
 		}
 
 		public bool IsCommentLine(string str)
-		{
-			var ret = false;
+			=> !string.IsNullOrWhiteSpace(str) && CommentLineRe.IsMatch(str);
+		//{
+		//	var ret = false;
 
-			if (!string.IsNullOrWhiteSpace(str))
-			{
-				ret = CommentLineRe.IsMatch(str);
-			}
+		//	if (!string.IsNullOrWhiteSpace(str))
+		//	{
+		//		ret = CommentLineRe.IsMatch(str);
+		//	}
 
-			return ret;
-		}
+		//	return ret;
+		//}
 
 		public bool IsFirstLine(string str)
 		{
@@ -138,7 +139,7 @@ namespace Npuzzle.src.parser
 					}
 				}
 			}
-			var azazaz = 1;
+
 			return ret;
 		}
 
