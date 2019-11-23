@@ -15,7 +15,7 @@ namespace Npuzzle.src.parser
 		private Regex NumberLineRe { get; set; }
 
 		public int Size { get; private set; } = 0;
-		private List<List<uint>> Field { get; set; } = new List<List<uint>>();
+		private List<List<uint>> Board { get; set; } = new List<List<uint>>();
 
 		public Parser()
 		{
@@ -81,7 +81,7 @@ namespace Npuzzle.src.parser
 		{
 			var ret = true;
 			res = null;
-			var map = new List<List<uint>>();
+			var board = new List<List<uint>>();
 
 			try
 			{
@@ -99,9 +99,9 @@ namespace Npuzzle.src.parser
 					
 					if(Size > 0 && ParseLine(line, out List<uint> numLine))
 					{
-						map.Add(numLine);
+						board.Add(numLine);
 
-						if(numLine.Count > Size || map.Count > Size)
+						if(numLine.Count != Size || board.Count > Size)
 						{
 							//throw nessage "Wrong map size"
 							ret = false;
@@ -132,7 +132,7 @@ namespace Npuzzle.src.parser
 				{
 					for(var c = 0; c < Size; c++)
 					{
-						res[r, c] = map[r][c];
+						res[r, c] = board[r][c];
 					}
 				}
 			}
