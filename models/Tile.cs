@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Npuzzle.Models
 {
-	class Tile
+	class Tile //not need this class // DROP?
 	{
 		public uint Val { get; set; }
 		public Position CurrentP { get; set; }
