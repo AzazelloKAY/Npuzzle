@@ -64,16 +64,19 @@ namespace Npuzzle.src.parser
 			var ret = false;
 			res = new List<uint>();
 
-			if (!string.IsNullOrWhiteSpace(str))
+			if (string.IsNullOrWhiteSpace(str))
 			{
-				var reg = NumberLineRe.Match(str);
-				if (reg.Success && reg.Groups["line"]?.Length > 0)
-				{
-					res = AllNumbersRe.Matches(reg.Groups["line"].Value).Select(x => uint.Parse(x.Value)).ToList();
-					ret = true;
-				}
+				return ret;
 			}
 
+			var reg = NumberLineRe.Match(str);
+			if (reg.Success && reg.Groups["line"]?.Length > 0)
+			{
+				res = AllNumbersRe.Matches(reg.Groups["line"].Value).Select(x => uint.Parse(x.Value)).ToList();
+				ret = true;
+			}
+
+			
 			return ret;
 		}
 
