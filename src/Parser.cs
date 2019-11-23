@@ -81,7 +81,6 @@ namespace Npuzzle.src.parser
 		{
 			var ret = true;
 			res = null;
-			var board = new List<List<uint>>();
 
 			try
 			{
@@ -99,9 +98,9 @@ namespace Npuzzle.src.parser
 					
 					if(Size > 0 && ParseLine(line, out List<uint> numLine))
 					{
-						board.Add(numLine);
+						Board.Add(numLine);
 
-						if(numLine.Count != Size || board.Count > Size)
+						if(numLine.Count != Size || Board.Count > Size)
 						{
 							//throw nessage "Wrong map size"
 							ret = false;
@@ -132,7 +131,7 @@ namespace Npuzzle.src.parser
 				{
 					for(var c = 0; c < Size; c++)
 					{
-						res[r, c] = board[r][c];
+						res[r, c] = Board[r][c];
 					}
 				}
 			}

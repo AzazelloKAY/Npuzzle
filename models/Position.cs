@@ -1,8 +1,8 @@
-﻿namespace Npuzzle.models
+﻿namespace Npuzzle.Models
 {
-	class Position
+	public class Position
 	{
-		public int x { get; set; }
-		public int y { get; set; }
+		public uint X { get; set; }
+		public uint Y { get; set; }
 	}
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Npuzzle.models
+namespace Npuzzle.Models
 {
 	class Tile
 	{
