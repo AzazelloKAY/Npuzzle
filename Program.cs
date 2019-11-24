@@ -8,6 +8,8 @@ namespace Npuzzle
 	{
 		static void Main(string[] args)
 		{
+
+
 			var parser = new Parser();
 			List<string> strMap;
 

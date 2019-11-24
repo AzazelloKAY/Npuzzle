@@ -31,16 +31,7 @@ namespace Npuzzle.src.parser
 
 		public bool IsCommentLine(string str)
 			=> !string.IsNullOrWhiteSpace(str) && CommentLineRe.IsMatch(str);
-		//{
-		//	var ret = false;
 
-		//	if (!string.IsNullOrWhiteSpace(str))
-		//	{
-		//		ret = CommentLineRe.IsMatch(str);
-		//	}
-
-		//	return ret;
-		//}
 
 		public bool IsFirstLine(string str)
 		{

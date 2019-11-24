@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Npuzzle.src.Heuristic
 {
-	class Hamming : IHeuristic
+	public class Hamming : IHeuristic
 	{
-		public int Calculate<T> (T arg)
+		public long Calculate(uint[,] b1, uint[,] b2)
 		{
 			throw new NotImplementedException();
 		}
