@@ -1,7 +1,7 @@
-﻿namespace Npuzzle.src.heuristic
+﻿namespace Npuzzle.Src.Heuristic
 {
 	public interface IHeuristic
 	{
-		long Calculate(uint[,] b1, uint[,] b2);
+		long Calculate(uint[,] board, uint[,] goal, int size);
 	}
 }

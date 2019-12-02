@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Npuzzle.src.parser
+namespace Npuzzle.Src.Parser
 {
 	public class Parser
 	{

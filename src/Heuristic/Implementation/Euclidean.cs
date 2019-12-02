@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Npuzzle.src.Heuristic
+namespace Npuzzle.Src.Heuristic
 {
-	class Euclidean
+	public class Euclidean : IHeuristic
 	{
+		public long Calculate(uint[,] b1, uint[,] b2, int size)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

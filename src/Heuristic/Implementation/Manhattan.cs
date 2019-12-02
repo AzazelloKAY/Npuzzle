@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Npuzzle.src.Heuristic
+namespace Npuzzle.Src.Heuristic
 {
-	class Manhattan
+	public class Manhattan : IHeuristic
 	{
+		public long Calculate(uint[,] b1, uint[,] b2, int size)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

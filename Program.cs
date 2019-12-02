@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Npuzzle.src.parser;
+using Npuzzle.Src;
+using Npuzzle.Src.Generator;
+using Npuzzle.Src.Heuristic;
+using Npuzzle.Src.Parser;
 
 namespace Npuzzle
 {
@@ -9,32 +12,36 @@ namespace Npuzzle
 		static void Main(string[] args)
 		{
 
-
 			var parser = new Parser();
-			List<string> strMap;
+			List<string> lines;
 
 			//read whole map
 			if(args.Length == 0)
 			{
-				strMap = parser.ReadFromConsole();
+				lines = parser.ReadFromConsole();
 			}
 			else
 			{
-				strMap = parser.ReadFromFile(args[0]);
+				lines = parser.ReadFromFile(args[0]);
 			}
 
 			//parsing
-			if (parser.Parse(strMap, out uint[,] mass))
+			if (parser.Parse(lines, out uint[,] initMap))
 			{
-				Console.WriteLine("We got a mass");
+				Console.WriteLine("We got a map");
+
+				var heuristic = new Hamming();
+
+				//TODO: check map validity e.g.: no number duplication, map can be solvet etc.
+
+				var solver = new Solver(initMap, parser.Size, heuristic, GoalGenerator.Serpentine);
+
+				var result = solver.Solution;
 			}
 			else
 			{
 				Console.WriteLine("Some errors");
 			}
-
-
-			//TODO: check map validity e.g.: no number duplication, map can be solvet etc.
 
 
 			//do
@@ -45,5 +52,10 @@ namespace Npuzzle
 			//while (Console.ReadKey(true).Key != ConsoleKey.Escape);
 			//Console.ReadKey();
 		}
+
+
+		
+
+
 	}
 }
