@@ -2,6 +2,7 @@
 using Npuzzle.Src.Heuristic;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Npuzzle.Src
 {
@@ -32,33 +33,30 @@ namespace Npuzzle.Src
 			Size = size;
 			GoalBoard = GenerateTarget(Size);
 
-			var initBoard = new Board(startMap, null, FindZero(startMap), Heuristic.Calculate(startMap, GoalBoard, Size), 0);
+			var initBoard = new Board(startMap, null, FindZero(startMap), Size, Heuristic.Calculate(startMap, GoalBoard, Size), 0);
 			
 			var queue = new List<Board> { initBoard };
 
 			while (true)
 			{
 				var board = queue[0];
+				queue.RemoveAt(0);
 
 				if (board.Deviation == 0) //save solution path
 				{
-					while(board.Prev != null)
+					Solution.Add(board);
+					foreach (var b in board)
 					{
-						Solution.Add(board);
-
-						board = board.Prev;
+						Solution.AddRange(b);
 					}
-					
+
 					return;
 				}
 
 
 				MoveZero(board).ForEach(move => 
 				{
-					//if(!containsInPath(board, board1))
-					//{
-					//	queue.Add(move);
-					//}
+					//AddWithPriorityCheck(queue, move)
 				});
 
 			}
@@ -97,53 +95,60 @@ namespace Npuzzle.Src
 					newBoard[board.Zero.Line, board.Zero.Column] = board.Value[newZero.Line, newZero.Column];
 					var deviation = Heuristic.Calculate(newBoard, GoalBoard, Size);
 
-					res.Add(new Board(newBoard, board, newZero, deviation, ++board.Depth));
+					if (board.All(b => b != newBoard)) //add to res only if this board not already in path
+					{
+						res.Add(new Board(newBoard, board, newZero, Size, deviation, ++board.Depth));
+					}
 				}
 			}
 		}
 
+		
 
 		#region HELPERS
 
 		private Position FindZero(uint[,] board)
 		{
-			Position res = null;
-
-			Iterate((i, j) =>
-			{
-				if (board[i, j] == 0)
-				{
-					res = new Position(i, j);
-				}
-			});
-
-			return res;
-		}
-
-		private bool IsEqualBoard(Board b1, Board b2)
-		{
-			var res = true;
-
-			Iterate((i, j) =>
-			{
-				if (b1.Value[i, j] != b2.Value[i, j])
-				{
-					res = false;
-				}
-			});
-
-			return res;
-		}
-
-		private void Iterate(Action<int, int> act)
-		{
 			for (var i = 0; i < Size; i++)
 			{
 				for (var j = 0; j < Size; j++)
 				{
-					act(i, j);
+					if (board[i, j] == 0)
+					{
+						return new Position(i, j);
+					}
 				}
 			}
+
+			return null;
+		}
+
+		//TODO: OR AddWithPriorityCheck: add elem with lowest deviation to the front?????
+		//deside where lowest step count
+		private void AddWithPriorityCheck(List<Board> queue, Board b)
+		{
+			//queue.Insert();
+			throw new NotImplementedException();
+
+			//  вычисляем f(x)
+			//private static int measure(ITEM item)
+			//{
+			//	ITEM item2 = item;
+			//	int c = 0;   // g(x)
+			//	int measure = item.getBoard().h();  // h(x)
+			//	while (true)
+			//	{
+			//		c++;
+			//		item2 = item2.prevBoard;
+			//		if (item2 == null)
+			//		{
+			//			// g(x) + h(x)
+			//			return measure + c;
+			//		}
+			//	}
+			//}
+			
+
 		}
 
 		#endregion

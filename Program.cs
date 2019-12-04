@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Npuzzle.Models;
 using Npuzzle.Src;
 using Npuzzle.Src.Generator;
 using Npuzzle.Src.Heuristic;
@@ -11,6 +12,8 @@ namespace Npuzzle
 	{
 		static void Main(string[] args)
 		{
+
+
 
 			var parser = new Parser();
 			List<string> lines;
