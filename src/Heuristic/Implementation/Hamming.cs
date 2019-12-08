@@ -13,9 +13,9 @@ namespace Npuzzle.Src.Heuristic
 
 			for (int i = 0; i < size; i++)
 			{
-				for(var j = 0; j < size; j++)
+				for (var j = 0; j < size; j++)
 				{
-					if(/*goal[i,j] != 0 &&*/ board[i,j] != goal[i,j]) //why check zero tile??? if zero check - save board[i,j] to var, will it be faster???
+					if (/*goal[i,j] != 0 &&*/ board[i, j] != goal[i, j]) //why check zero tile??? if zero check - save board[i,j] to var, will it be faster???
 					{
 						res++;
 					}

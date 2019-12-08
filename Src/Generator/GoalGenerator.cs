@@ -4,7 +4,6 @@ namespace Npuzzle.Src.Generator
 {
 	public static class GoalGenerator
 	{
-
 		public static uint[,] Serpentine(int size)
 		{
 			var res = new uint[size, size];

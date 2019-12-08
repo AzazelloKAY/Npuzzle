@@ -111,7 +111,7 @@ namespace Npuzzle.Src.Parser
 					break;
 				}
 			}
-			catch(Exception ex)
+			catch//(Exception ex)
 			{
 				Console.WriteLine("Something went wrong.");
 				ret = false;
