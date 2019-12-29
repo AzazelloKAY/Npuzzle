@@ -10,20 +10,24 @@ namespace Npuzzle.Src
 	public class Solver
 	{
 		public List<Board> Solution { get; }
-		public long StepCount { get; }
+		public ulong MaxStateNum { get; private set; }
 		public long SolvingDuration => StopWatch.ElapsedMilliseconds;
 
+		private bool UseGreedy { get; }
 		private Stopwatch StopWatch { get; }
+		private Stopwatch MaxDurationStopWatch { get; }
+		private TimeSpan MaxDuration = new TimeSpan(0, 5, 0);
 		private Func<int, uint[,]> GenerateTarget { get; set; }
 		private IHeuristic Heuristic { get; set; }
 		private int Size { get; set; }
 		private uint[,] GoalBoard { get; set; }
 
 
-		public Solver(uint[,] board, IHeuristic heuristic, Func<int, uint[,]> generateTarget)
+		public Solver(uint[,] board, IHeuristic heuristic, Func<int, uint[,]> generateTarget, bool useGreedy = false)
 		{
 			Heuristic = heuristic;
 			GenerateTarget = generateTarget;
+			UseGreedy = useGreedy;
 			Solution = new List<Board>();
 			StopWatch = new Stopwatch();
 
@@ -33,7 +37,7 @@ namespace Npuzzle.Src
 
 		private void Solve(uint[,] startMap)
 		{
-			var initBoard = new Board(startMap, null);
+			var initBoard = new Board(startMap, null, UseGreedy);
 
 			Size = initBoard.Size;
 
@@ -45,6 +49,7 @@ namespace Npuzzle.Src
 
 			//COUNTERS
 			StopWatch.Start();
+			MaxDurationStopWatch.Start();
 
 			while (queue.Count > 0)
 			{
@@ -60,6 +65,7 @@ namespace Npuzzle.Src
 					Solution.Reverse();
 
 					StopWatch.Stop();
+					MaxDurationStopWatch.Stop();
 
 					return;
 				}
@@ -68,6 +74,14 @@ namespace Npuzzle.Src
 				{
 					AddWithPriorityCheck(queue, move);
 				});
+
+				//is solving is to long
+				if(MaxDurationStopWatch.Elapsed > MaxDuration)
+				{
+					StopWatch.Stop();
+					MaxDurationStopWatch.Stop();
+					return;
+				}
 			}
 
 		}
@@ -105,7 +119,8 @@ namespace Npuzzle.Src
 
 				if (board.Skip(1).All(b => b != newBoard)) //add to res only if this board not already in path
 				{
-					res.Add(new Board(newBoard, board, newZero, Size, deviation, board.Depth + 1));
+					MaxStateNum++;
+					res.Add(new Board(newBoard, board, newZero, Size, deviation, board.Depth + 1, UseGreedy));
 				}
 			}
 		}
@@ -137,7 +152,6 @@ namespace Npuzzle.Src
 
 			queue.Insert((queue.Count == 0 || queue[middle].Measure >= m) ? middle : middle + 1, b);
 		}
-
 
 	}
 }

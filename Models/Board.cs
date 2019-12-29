@@ -18,10 +18,11 @@ namespace Npuzzle.Models
 
 		public long Deviation { get; set; } = 0; //h(x) //board weight, more is worse
 
-		public long Measure => Depth + Deviation;
+		public long Measure => GetMeasure();
 
+		private Func<long> GetMeasure { get; set; }
 
-		public Board(uint[,] value, Board prev, Position zero, int size, long deviation, int depth)
+		public Board(uint[,] value, Board prev, Position zero, int size, long deviation, int depth, bool useGreedy = false)
 		{
 			Value = value;
 			Prev = prev;
@@ -30,14 +31,32 @@ namespace Npuzzle.Models
 
 			Deviation = deviation;
 			Depth = depth;
+
+			if (useGreedy)
+			{
+				GetMeasure = () => { return Deviation; };
+			}
+			else
+			{
+				GetMeasure = () => { return Depth + Deviation; };
+			}
 		}
 
-		public Board(uint[,] value, Board prev)
+		public Board(uint[,] value, Board prev, bool useGreedy = false)
 		{
 			Value = value;
 			Prev = prev;
 
 			FindSizeAndZero();
+
+			if (useGreedy)
+			{
+				GetMeasure = () => { return Deviation; };
+			}
+			else
+			{
+				GetMeasure = () => { return Depth + Deviation; };
+			}
 		}
 
 
