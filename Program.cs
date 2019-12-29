@@ -26,16 +26,12 @@ namespace Npuzzle
 				lines = parser.ReadFromFile(args[0]);
 			}
 
-			if (parser.Parse(lines, out uint[,] initMap))
+			if (parser.Parse(lines, out uint[,] initMap) && parser.Validate())
 			{
 				Console.WriteLine("We got a map");
 
 				//TODO: add selector
 				var heuristic = new Hamming();
-
-                //TODO: check map validity e.g.: no number duplication, map can be solvet etc.
-                if (parser.Validate())
-                {
 
 
                     //TODO: ??? IGoalgenerator => Generate and IsSolvabel ???
@@ -49,11 +45,6 @@ namespace Npuzzle
 
                     Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
                     Console.WriteLine($"Path distanse: {solver.Solution.Count}");
-                }
-                else
-                {
-                    Console.WriteLine("Map is not valid");
-                }
 			}
 			else
 			{
