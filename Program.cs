@@ -28,23 +28,34 @@ namespace Npuzzle
 
 			if (parser.Parse(lines, out uint[,] initMap) && parser.Validate())
 			{
-				Console.WriteLine("We got a map");
+				Console.WriteLine("Please select Heuristic method");
+				Console.WriteLine("<1> - Hamming");
+				Console.WriteLine("<2> - Manhattan");
+				Console.WriteLine("<3> - Euclidean");
 
-				//TODO: add selector
-				var heuristic = new Hamming();
+				IHeuristic heuristic;
+				switch (Console.ReadKey().Key)
+				{
+					case ConsoleKey.D1: heuristic = new Hamming();
+						break;
+					case ConsoleKey.D2: heuristic = new Manhattan();
+						break;
+					case ConsoleKey.D3: heuristic = new Euclidean();
+						break;
+					default: heuristic = new Hamming();
+						break;
+				}
 
+                var solver = new Solver(initMap, heuristic, GoalGenerator.Serpentine); //TODO: replase with snail!!!!
 
-                    //TODO: ??? IGoalgenerator => Generate and IsSolvabel ???
-                    var solver = new Solver(initMap, heuristic, GoalGenerator.Serpentine);
+                solver.Solution?.ForEach(b =>
+                {
+                    b.Print();
+                    Console.WriteLine();
+                });
 
-                    solver.Solution?.ForEach(b =>
-                    {
-                        b.Print();
-                        Console.WriteLine();
-                    });
-
-                    Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
-                    Console.WriteLine($"Path distanse: {solver.Solution.Count}");
+                Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
+                Console.WriteLine($"Path distanse: {solver.Solution.Count}");
 			}
 			else
 			{

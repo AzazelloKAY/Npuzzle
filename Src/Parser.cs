@@ -199,7 +199,11 @@ namespace Npuzzle.Src.Parser
                 }
             }
 
-			if(!result)
+			if(result)
+			{
+				Console.WriteLine("We got a map");
+			}
+			else
 			{
 				Console.WriteLine("Invalid map");
 			}
