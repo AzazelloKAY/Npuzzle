@@ -197,7 +197,6 @@ namespace Npuzzle.Src.Parser
                 if (boardNumber.Last() == boardNumber.Count - 1)
                 {
                     var n = 0;
-                    
                     foreach (var number in boardNumber)
                     {
                         if (n != number)
