@@ -33,19 +33,27 @@ namespace Npuzzle
 				//TODO: add selector
 				var heuristic = new Hamming();
 
-				//TODO: check map validity e.g.: no number duplication, map can be solvet etc.
+                //TODO: check map validity e.g.: no number duplication, map can be solvet etc.
+                if (parser.Validate())
+                {
 
-				//TODO: ??? IGoalgenerator => Generate and IsSolvabel ???
-				var solver = new Solver(initMap, heuristic, GoalGenerator.Serpentine);
 
-				solver.Solution?.ForEach(b =>
-				{
-					b.Print();
-					Console.WriteLine();
-				});
+                    //TODO: ??? IGoalgenerator => Generate and IsSolvabel ???
+                    var solver = new Solver(initMap, heuristic, GoalGenerator.Serpentine);
 
-				Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
-				Console.WriteLine($"Path distanse: {solver.Solution.Count}");
+                    solver.Solution?.ForEach(b =>
+                    {
+                        b.Print();
+                        Console.WriteLine();
+                    });
+
+                    Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
+                    Console.WriteLine($"Path distanse: {solver.Solution.Count}");
+                }
+                else
+                {
+                    Console.WriteLine("Map is not valid");
+                }
 			}
 			else
 			{

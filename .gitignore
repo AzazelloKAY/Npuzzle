@@ -7,3 +7,6 @@
 /obj
 /Properties/launchSettings.json
 /.vs/config/applicationhost.config
+/p
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json

@@ -4,12 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
+
 namespace Npuzzle.Src.Parser
 {
 	public class Parser
 	{
-		private static readonly Regex CommentLineRe = new Regex(@"^#.*\$$", RegexOptions.Compiled);
-		private static readonly Regex FirstLineRe = new Regex(@"^(?<size>\d+)(\s*#.*)?\$$", RegexOptions.Compiled);
+		private static readonly Regex CommentLineRe = new Regex(@"^#.*", RegexOptions.Compiled);
+		private static readonly Regex FirstLineRe = new Regex(@"^(?<size>\d+)(\s*#.*)?", RegexOptions.Compiled);
 		private static readonly Regex AllNumbersRe = new Regex(@"\d+", RegexOptions.Compiled);
 		private Regex NumberLineRe { get; set; }
 
@@ -42,7 +43,7 @@ namespace Npuzzle.Src.Parser
 				if (reg.Success)
 				{
 					Size = int.Parse(reg.Groups["size"].Value);
-					NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})(?:\s*#.*)?\$$");
+					NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})(?:\s*#.*)?");
 					ret = true;
 				}
 			}
@@ -182,5 +183,36 @@ namespace Npuzzle.Src.Parser
 
 		#endregion
 
+        public bool Validate()
+        {
+            var result = false;
+            var boardNumber = new List<uint>();
+            foreach (var line in Board)
+            {
+                boardNumber.AddRange(line);
+            }
+            if (boardNumber.Count == Math.Pow(Size, 2))
+            {
+                boardNumber.Sort();
+                if (boardNumber.Last() == boardNumber.Count - 1)
+                {
+                    var n = 0;
+                    
+                    foreach (var number in boardNumber)
+                    {
+                        if (n != number)
+                        {
+                            break;
+                        }
+                        n++;
+                    }
+                    if (n == boardNumber.Count)
+                    {
+                        result = true;
+                    }
+                }
+            }
+            return result;
+        }
 	}
 }
