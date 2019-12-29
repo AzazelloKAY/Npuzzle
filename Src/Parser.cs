@@ -187,30 +187,23 @@ namespace Npuzzle.Src.Parser
         {
             var result = false;
             var boardNumber = new List<uint>();
-            foreach (var line in Board)
-            {
-                boardNumber.AddRange(line);
-            }
-            if (boardNumber.Count == Math.Pow(Size, 2))
+
+			Board.ForEach(l => boardNumber.AddRange(l));
+
+			if (boardNumber.Count == Math.Pow(Size, 2))
             {
                 boardNumber.Sort();
                 if (boardNumber.Last() == boardNumber.Count - 1)
                 {
-                    var n = 0;
-                    foreach (var number in boardNumber)
-                    {
-                        if (n != number)
-                        {
-                            break;
-                        }
-                        n++;
-                    }
-                    if (n == boardNumber.Count)
-                    {
-                        result = true;
-                    }
+					result = boardNumber.Select((x, idx) => { return x == idx; }).All(x => x == true);
                 }
             }
+
+			if(!result)
+			{
+				Console.WriteLine("Invalid map");
+			}
+
             return result;
         }
 	}
