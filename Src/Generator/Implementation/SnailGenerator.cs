@@ -86,7 +86,7 @@ namespace Npuzzle.Src.Generator
 
 			if (size % 2 > 0)
 			{
-				IfAdd(map[halfSize, halfSize], halfSize + 1);
+				IfAdd(map[halfSize, halfSize], halfSize);
 			}
 
 			var result = valBoard.Select((x, idx) => valBoard.Skip(idx).Count(y => y < x)).Sum();
@@ -104,7 +104,7 @@ namespace Npuzzle.Src.Generator
 			{
 				if (n == 0)
 				{
-					posZero = i;
+					posZero = i + 1;
 				}
 				else
 				{
