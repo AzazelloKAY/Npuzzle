@@ -139,6 +139,7 @@ namespace Npuzzle.Src.Parser
 		public List<string> ReadFromConsole()
 		{
 			var ret = new List<string>();
+			Console.WriteLine("Input puzzle map:");
 
 			try
 			{
