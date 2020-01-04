@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Npuzzle.Src.Generator
 {
@@ -25,44 +26,31 @@ namespace Npuzzle.Src.Generator
 		public bool IsSolvabel(uint[,] map, int size)
 		{
 
-			var IsSolv = true;
-			var ValBoard = new List<uint>();
-			int PosZero = 0;
+			var isSolv = true;
+			var valBoard = new List<uint>();
+			int posZero = 0;
 			for (int i = 0; i < size; i++)
 			{
 				for (int j = 0; j < size; j++)
 				{
 					if (map[i, j] == 0)
 					{
-						PosZero = i;
+						posZero = i + 1;
+						continue;
 					}
-					ValBoard.Add(map[i, j]);
+					valBoard.Add(map[i, j]);
 				}
 			}
 
-			int result = 0;
-			foreach (var n in ValBoard)
-			{
-				int res = 0;
-				foreach (var j in ValBoard)
-				{
-					if (n > j)
-					{
-						res++;
-					}
-				}
+			var result = valBoard.Select((x, idx) => valBoard.Skip(idx).Count(y => y < x)).Sum();
 
-				res = res + PosZero;
-				result += res;
-
-			}
-
+			result += posZero;
 			if (result % 2 != 0)
 			{
-				IsSolv = false;
+				isSolv = false;
 			}
 
-			return IsSolv;
+			return isSolv;
 		}
 	}
 }

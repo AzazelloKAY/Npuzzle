@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Npuzzle.Src.Generator
 {
@@ -50,9 +51,9 @@ namespace Npuzzle.Src.Generator
 
 		public bool IsSolvabel(uint[,] map, int size)
 		{
-			var IsSolv = true;
-			var ValBoard = new List<uint>();
-			int PosZero = 0;
+			var isSolv = true;
+			var valBoard = new List<uint>();
+			int posZero = 0;
 			var halfSize = size / 2;
 
 			var left = 0;
@@ -61,51 +62,57 @@ namespace Npuzzle.Src.Generator
 			{
 				for (int j = left; j < right; j++) //>
 				{
-					ValBoard.Add(map[left, j]);
+					IfAdd(map[left, j], left);
 				}
 
 				for (int j = left; j < right; j++) //V
 				{
-					ValBoard.Add(map[j, right]);
+					IfAdd(map[j, right], j);
 				}
 
 				for (int j = right; j > left; j--) //<
 				{
-					ValBoard.Add(map[right, j]);
+					IfAdd(map[right, j], right);
 				}
 
 				for (int j = right; j > left; j--) //^
 				{
-					ValBoard.Add(map[j, left]);
+					IfAdd(map[j, left], j);
 				}
 
 				left++;
 				right--;
 			}
 
-			int result = 0;
-			foreach (var n in ValBoard)
+			if (size % 2 > 0)
 			{
-				int res = 0;
-				foreach (var j in ValBoard)
-				{
-					if (n > j)
-					{
-						res++;
-					}
-				}
-
-				res = res + PosZero;
-				result += res;
-
+				IfAdd(map[halfSize, halfSize], halfSize + 1);
 			}
 
+			var result = valBoard.Select((x, idx) => valBoard.Skip(idx).Count(y => y < x)).Sum();
+
+
+			result += posZero;
 			if (result % 2 != 0)
 			{
-				IsSolv = false;
+				isSolv = false;
 			}
 
-			return IsSolv;
+			return isSolv;
+
+			void IfAdd(uint n, int i)
+			{
+				if (n == 0)
+				{
+					posZero = i;
+				}
+				else
+				{
+					valBoard.Add(n);
+				}
+			}
 		}
+		
+		
 	}
 }
