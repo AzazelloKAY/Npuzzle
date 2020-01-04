@@ -16,7 +16,7 @@ namespace Npuzzle.Src
 		private bool UseGreedy { get; }
 		private Stopwatch StopWatch { get; }
 		private Stopwatch MaxDurationStopWatch { get; }
-		private TimeSpan MaxDuration = new TimeSpan(0, 5, 0);
+		private TimeSpan MaxDuration = new TimeSpan(0, 10, 0);
 		private Func<int, uint[,]> GenerateTarget { get; set; }
 		private IHeuristic Heuristic { get; set; }
 		private int Size { get; set; }

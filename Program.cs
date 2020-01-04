@@ -86,19 +86,19 @@ namespace Npuzzle
 		private static bool SelectAlgorithm()
 		{
 			Console.WriteLine("Please select algorithm");
-			Console.WriteLine("<1> - Defoult");
-			Console.WriteLine("<2> - Greedy");
+			Console.WriteLine("<1> - Greedy");
+			Console.WriteLine("<2> - A*");
 			var useGreedy = false;
 			switch (Console.ReadKey().Key)
 			{
 				case ConsoleKey.D1:
-					useGreedy = false;
-					break;
-				case ConsoleKey.D2:
 					useGreedy = true;
 					break;
-				default:
+				case ConsoleKey.D2:
 					useGreedy = false;
+					break;
+				default:
+					useGreedy = true;
 					break;
 			}
 			Console.WriteLine();
