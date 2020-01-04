@@ -13,46 +13,56 @@ namespace Npuzzle
 	{
 		static void Main(string[] args)
 		{
-			var parser = new Parser();
-			List<string> lines;
+			do
+			{
+				var parser = new Parser();
+				List<string> lines;
 
-			//read whole map
-			if (args.Length == 0)
-			{
-				lines = parser.ReadFromConsole();
-			}
-			else
-			{
-				lines = parser.ReadFromFile(args[0]);
-			}
+				//read whole map
+				if (args.Length == 0)
+				{
+					lines = parser.ReadFromConsole();
+				}
+				else
+				{
+					lines = parser.ReadFromFile(args[0]);
+				}
 
-			if (parser.Parse(lines, out uint[,] initMap) && parser.Validate())
-			{
-                var solver = new Solver(initMap, SelectHeuristic(), GoalGenerator.Snail, SelectAlgorithm());
+				var goalGenerator = SelectTargetConfiguration();
+
+				if (!parser.Parse(lines, out uint[,] initMap) || !parser.Validate())
+				{
+					Console.WriteLine("Map invalid");
+					return;
+				}
+
+				if (!goalGenerator.IsSolvabel(initMap, parser.Size))
+				{
+					Console.WriteLine("Map is unsolvable");
+					return;
+				}
+
+				var solver = new Solver(initMap, SelectHeuristic(), goalGenerator.Generate, SelectAlgorithm());
 
 				if (solver.Solution.Count() == 0)
 				{
 					Console.WriteLine("The board is unsolvable");
+					return;
 				}
-				else
+
+				solver.Solution?.ForEach(b =>
 				{
-					solver.Solution?.ForEach(b =>
-					{
-						b.Print();
-						Console.WriteLine();
-					});
+					b.Print();
+					Console.WriteLine();
+				});
 
-					Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
-					Console.WriteLine($"Path distanse: {solver.Solution.Count}");
-					Console.WriteLine($"Maximum number of state: {solver.MaxStateNum}");
-				}
-			}
-			else
-			{
-				Console.WriteLine("Some errors");
-			}
+				Console.WriteLine($"Total time: {solver.SolvingDuration} mSec.");
+				Console.WriteLine($"Path distanse: {solver.Solution.Count}");
+				Console.WriteLine($"Maximum number of state: {solver.MaxStateNum}");
 
-			Console.ReadKey();
+				Console.WriteLine("[?] Press any key to repeat or <Esc> for exit >");
+			}
+			while (Console.ReadKey(true).Key != ConsoleKey.Escape);
 		}
 
 
@@ -104,6 +114,29 @@ namespace Npuzzle
 			Console.WriteLine();
 
 			return useGreedy;
+		}
+
+		private static IGoalGenerator SelectTargetConfiguration()
+		{
+			Console.WriteLine("Please select desired configuration");
+			Console.WriteLine("<1> - Snail");
+			Console.WriteLine("<2> - Serpentine");
+			IGoalGenerator conf;
+			switch (Console.ReadKey().Key)
+			{
+				case ConsoleKey.D1:
+					conf = new SnailGenerator();
+					break;
+				case ConsoleKey.D2:
+					conf = new SerpentineGenerator();
+					break;
+				default:
+					conf = new SnailGenerator();
+					break;
+			}
+			Console.WriteLine();
+
+			return conf;
 		}
 
 	}

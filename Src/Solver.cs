@@ -15,8 +15,6 @@ namespace Npuzzle.Src
 
 		private bool UseGreedy { get; }
 		private Stopwatch StopWatch { get; }
-		private Stopwatch MaxDurationStopWatch { get; }
-		private TimeSpan MaxDuration = new TimeSpan(0, 10, 0);
 		private Func<int, uint[,]> GenerateTarget { get; set; }
 		private IHeuristic Heuristic { get; set; }
 		private int Size { get; set; }
@@ -30,7 +28,6 @@ namespace Npuzzle.Src
 			UseGreedy = useGreedy;
 			Solution = new List<Board>();
 			StopWatch = new Stopwatch();
-			MaxDurationStopWatch = new Stopwatch();
 
 			Solve(board);
 		}
@@ -52,7 +49,6 @@ namespace Npuzzle.Src
 
 			//COUNTERS
 			StopWatch.Start();
-			MaxDurationStopWatch.Start();
 
 			while (queue.Count > 0)
 			{
@@ -68,7 +64,6 @@ namespace Npuzzle.Src
 					Solution.Reverse();
 
 					StopWatch.Stop();
-					MaxDurationStopWatch.Stop();
 
 					return;
 				}
@@ -77,14 +72,6 @@ namespace Npuzzle.Src
 				{
 					AddWithPriorityCheck(queue, move);
 				});
-
-				//is solving is to long
-				if(MaxDurationStopWatch.Elapsed > MaxDuration)
-				{
-					StopWatch.Stop();
-					MaxDurationStopWatch.Stop();
-					return;
-				}
 			}
 
 		}

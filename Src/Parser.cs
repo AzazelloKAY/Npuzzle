@@ -77,6 +77,11 @@ namespace Npuzzle.Src.Parser
 			var ret = true;
 			res = null;
 
+			if (!input.Any())
+			{
+				return false;
+			}
+
 			try
 			{
 				foreach(var line in input)
@@ -161,22 +166,25 @@ namespace Npuzzle.Src.Parser
 		{
 			var ret = new List<string>();
 
-			if(!string.IsNullOrWhiteSpace(path))
+			if(!File.Exists(path))
 			{
-				try
+				Console.WriteLine("File not exist");
+				return ret;
+			}
+
+			try
+			{
+				using (var file = File.OpenText(path))
 				{
-					using (var file = File.OpenText(path))
+					while (!file.EndOfStream)
 					{
-						while (!file.EndOfStream)
-						{
-							ret.Add(file.ReadLine());
-						}
+						ret.Add(file.ReadLine());
 					}
 				}
-				catch /*(Exception ex)*/
-				{
-					Console.WriteLine("Error in file reading");
-				}
+			}
+			catch /*(Exception ex)*/
+			{
+				Console.WriteLine("Error in file reading");
 			}
 
 			return ret;
