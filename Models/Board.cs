@@ -163,7 +163,7 @@ namespace Npuzzle.Models
 			{
 				for (var j = 0; j < Size; j++)
 				{
-					Console.Write($"{Value[i, j]}{(j < Size - 1 ? " " : "")}");
+					Console.Write($"{Value[i, j],-4}");
 				}
 				Console.WriteLine();
 			}

@@ -30,6 +30,7 @@ namespace Npuzzle.Src
 			UseGreedy = useGreedy;
 			Solution = new List<Board>();
 			StopWatch = new Stopwatch();
+			MaxDurationStopWatch = new Stopwatch();
 
 			Solve(board);
 		}

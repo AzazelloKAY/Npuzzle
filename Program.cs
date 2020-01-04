@@ -62,7 +62,7 @@ namespace Npuzzle
 						break;
 				}
 
-                var solver = new Solver(initMap, heuristic, GoalGenerator.Serpentine, useGreedy); //TODO: replase with snail!!!!
+                var solver = new Solver(initMap, heuristic, GoalGenerator.Snail, useGreedy);
 
 				if (solver.Solution.Count() == 0)
 				{
