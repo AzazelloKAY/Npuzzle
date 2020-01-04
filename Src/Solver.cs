@@ -38,6 +38,8 @@ namespace Npuzzle.Src
 
 		private void Solve(uint[,] startMap)
 		{
+			Console.WriteLine("Start");
+
 			var initBoard = new Board(startMap, null, UseGreedy);
 
 			Size = initBoard.Size;

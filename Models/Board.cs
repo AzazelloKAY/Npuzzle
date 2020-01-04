@@ -20,6 +20,8 @@ namespace Npuzzle.Models
 
 		public long Measure => GetMeasure();
 
+		private long DepthAndDev { get; set; }
+
 		private Func<long> GetMeasure { get; set; }
 
 		public Board(uint[,] value, Board prev, Position zero, int size, long deviation, int depth, bool useGreedy = false)
@@ -31,6 +33,7 @@ namespace Npuzzle.Models
 
 			Deviation = deviation;
 			Depth = depth;
+			DepthAndDev = Depth + Deviation;
 
 			if (useGreedy)
 			{
@@ -38,7 +41,7 @@ namespace Npuzzle.Models
 			}
 			else
 			{
-				GetMeasure = () => { return Depth + Deviation; };
+				GetMeasure = () => { return DepthAndDev; };
 			}
 		}
 
