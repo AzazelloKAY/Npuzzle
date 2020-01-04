@@ -39,7 +39,10 @@ namespace Npuzzle.Src.Generator
                     {
                         res[i, j] = (uint)(size * 2 + (i - j - 1));
                     }
-                    else if ()
+                    else 
+                    {
+
+                    }
                 }
             }
 
