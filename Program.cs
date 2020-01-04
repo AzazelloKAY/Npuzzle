@@ -28,41 +28,7 @@ namespace Npuzzle
 
 			if (parser.Parse(lines, out uint[,] initMap) && parser.Validate())
 			{
-				Console.WriteLine("Please select Heuristic method");
-				Console.WriteLine("<1> - Hamming");
-				Console.WriteLine("<2> - Manhattan");
-				Console.WriteLine("<3> - Euclidean");
-				IHeuristic heuristic;
-				switch (Console.ReadKey().Key)
-				{
-					case ConsoleKey.D1: heuristic = new Hamming();
-						break;
-					case ConsoleKey.D2: heuristic = new Manhattan();
-						break;
-					case ConsoleKey.D3: heuristic = new Euclidean();
-						break;
-					default: heuristic = new Hamming();
-						break;
-				}
-
-				Console.WriteLine("Please select algorithm");
-				Console.WriteLine("<1> - Defoult");
-				Console.WriteLine("<2> - Greedy");
-				var useGreedy = false;
-				switch (Console.ReadKey().Key)
-				{
-					case ConsoleKey.D1:
-						useGreedy = false;
-						break;
-					case ConsoleKey.D2:
-						useGreedy = true;
-						break;
-					default:
-						useGreedy = false;
-						break;
-				}
-
-                var solver = new Solver(initMap, heuristic, GoalGenerator.Snail, useGreedy);
+                var solver = new Solver(initMap, SelectHeuristic(), GoalGenerator.Snail, SelectAlgorithm());
 
 				if (solver.Solution.Count() == 0)
 				{
@@ -87,6 +53,57 @@ namespace Npuzzle
 			}
 
 			Console.ReadKey();
+		}
+
+
+		private static IHeuristic SelectHeuristic()
+		{
+			Console.WriteLine("Please select Heuristic method");
+			Console.WriteLine("<1> - Hamming");
+			Console.WriteLine("<2> - Manhattan");
+			Console.WriteLine("<3> - Euclidean");
+			IHeuristic heuristic;
+			switch (Console.ReadKey().Key)
+			{
+				case ConsoleKey.D1:
+					heuristic = new Hamming();
+					break;
+				case ConsoleKey.D2:
+					heuristic = new Manhattan();
+					break;
+				case ConsoleKey.D3:
+					heuristic = new Euclidean();
+					break;
+				default:
+					heuristic = new Hamming();
+					break;
+			}
+			Console.WriteLine();
+
+			return heuristic;
+		}
+
+		private static bool SelectAlgorithm()
+		{
+			Console.WriteLine("Please select algorithm");
+			Console.WriteLine("<1> - Defoult");
+			Console.WriteLine("<2> - Greedy");
+			var useGreedy = false;
+			switch (Console.ReadKey().Key)
+			{
+				case ConsoleKey.D1:
+					useGreedy = false;
+					break;
+				case ConsoleKey.D2:
+					useGreedy = true;
+					break;
+				default:
+					useGreedy = false;
+					break;
+			}
+			Console.WriteLine();
+
+			return useGreedy;
 		}
 
 	}
