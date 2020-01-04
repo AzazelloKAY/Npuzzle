@@ -149,7 +149,7 @@ namespace Npuzzle.Src.Parser
 					ret.Add(line);
 				}
 			}
-			catch (Exception ex)
+			catch /*(Exception ex)*/
 			{
 				Console.WriteLine("Error in reading");
 			}
@@ -173,7 +173,7 @@ namespace Npuzzle.Src.Parser
 						}
 					}
 				}
-				catch (Exception ex)
+				catch /*(Exception ex)*/
 				{
 					Console.WriteLine("Error in file reading");
 				}

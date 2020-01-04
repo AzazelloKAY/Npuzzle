@@ -169,5 +169,9 @@ namespace Npuzzle.Models
 			}
 		}
 
+		public override int GetHashCode()
+		{
+			return base.GetHashCode();
+		}
 	}
 }
