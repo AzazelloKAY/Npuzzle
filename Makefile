@@ -5,7 +5,7 @@ OBJ = obj
 all:		$(NAME)
 
 $(NAME):	
-	dotnet publish -c Release -r osx.10.13.3-64 --self-contained true
+	dotnet publish -c Release -r osx.10.13-x64 --self-contained true
 
 clean:
 	@/bin/rm -f $(OBJ)
