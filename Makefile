@@ -5,14 +5,16 @@ OBJ = obj/
 all:		$(NAME)
 
 $(NAME):	
-	dotnet publish -c Release -r osx.10.13-x64 --self-contained true
+	@dotnet publish -c Release -r osx.10.13-x64 --self-contained true
+	@echo "Build complited"
 
 clean:
-	rm -rf $(OBJ)
+	@rm -rf $(OBJ)
+	@echo "obj deleted"
 	
 fclean:		clean
-	
-	rm -rf bin/
+	@rm -rf bin/
+	@echo "bin deleted"
 	
 re:			fclean	all
 

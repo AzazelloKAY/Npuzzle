@@ -10,7 +10,7 @@ namespace Npuzzle.Src.Parser
 	public class Parser
 	{
 		private static readonly Regex CommentLineRe = new Regex(@"^#.*$", RegexOptions.Compiled);
-		private static readonly Regex FirstLineRe = new Regex(@"^(?<size>\d+)(\s*#.*)?$", RegexOptions.Compiled);
+		private static readonly Regex FirstLineRe = new Regex(@"^(?<size>\d+)\s*(#.*)?$", RegexOptions.Compiled);
 		private static readonly Regex AllNumbersRe = new Regex(@"\d+", RegexOptions.Compiled);
 		private Regex NumberLineRe { get; set; }
 
@@ -20,13 +20,13 @@ namespace Npuzzle.Src.Parser
 		public Parser()
 		{
 			Size = 0;
-			NumberLineRe = new Regex(@"^(?<line>(?:\s*\d+){0})(?:\s*#.*)?$");
+			NumberLineRe = new Regex(@"^(?<line>(?:\s*\d+){0})\s*(?:#.*)?$");
 		}
 
 		public Parser(int size)
 		{
 			Size = size;
-			NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})(?:\s*#.*)?$");
+			NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})\s*(?:#.*)?$");
 		}
 
 		public bool IsCommentLine(string str)
@@ -43,7 +43,7 @@ namespace Npuzzle.Src.Parser
 				if (reg.Success)
 				{
 					Size = int.Parse(reg.Groups["size"].Value);
-					NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})(?:\s*#.*)?$");
+					NumberLineRe = new Regex($@"^(?<line>(?:\s*\d+){{{Size}}})\s*(?:#.*)?$");
 					ret = true;
 				}
 			}
