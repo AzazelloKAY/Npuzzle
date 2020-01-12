@@ -53,7 +53,6 @@ namespace Npuzzle.Src.Generator
 		{
 			var isSolv = true;
 			var valBoard = new List<uint>();
-			int posZero = 0;
 			var halfSize = size / 2;
 
 			var left = 0;
@@ -91,8 +90,6 @@ namespace Npuzzle.Src.Generator
 
 			var result = valBoard.Select((x, idx) => valBoard.Skip(idx).Count(y => y < x)).Sum();
 
-
-			result += posZero;
 			if (result % 2 != 0)
 			{
 				isSolv = false;
@@ -102,17 +99,12 @@ namespace Npuzzle.Src.Generator
 
 			void IfAdd(uint n, int i)
 			{
-				if (n == 0)
-				{
-					posZero = i + 1;
-				}
-				else
+				if (n != 0)
 				{
 					valBoard.Add(n);
 				}
 			}
 		}
-		
 		
 	}
 }
